@@ -9,8 +9,12 @@ import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { addToCart, removeFromCart } from "@/redux/features/cartSlice";
-import { addToFavorites, removeFromFavorites } from "@/redux/features/favoritesSlice";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "@/redux/features/favoritesSlice";
 import { ShoppingCart, Heart } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function SingleProductPage() {
   const params = useParams();
@@ -22,10 +26,16 @@ export default function SingleProductPage() {
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const favoriteItems = useSelector((state: RootState) => state.favorites.items);
+  const favoriteItems = useSelector(
+    (state: RootState) => state.favorites.items
+  );
 
-  const isInCart = product ? cartItems.some((item) => item.id === product.id) : false;
-  const isFavorite = product ? favoriteItems.some((item) => item.id === product.id) : false;
+  const isInCart = product
+    ? cartItems.some((item) => item.id === product.id)
+    : false;
+  const isFavorite = product
+    ? favoriteItems.some((item) => item.id === product.id)
+    : false;
 
   useEffect(() => {
     if (!productId) return;
@@ -43,12 +53,38 @@ export default function SingleProductPage() {
       });
   }, [productId]);
 
+  const showToast = (message: string, icon: string) => {
+    toast.custom(
+      (t) => (
+        <div
+          className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
+          style={{
+            opacity: t.visible ? 1 : 0,
+            transform: t.visible ? "translateX(0)" : "translateX(20px)",
+            transition: "all 0.3s ease",
+          }}
+        >
+          <img
+            src={product?.thumbnail || product?.images[0]}
+            alt={product?.title}
+            className="w-10 h-10 object-cover rounded"
+          />
+          <span className="font-medium">{message}</span>
+          <span className="text-xl">{icon}</span>
+        </div>
+      ),
+      { duration: 2000, position: "top-right" }
+    );
+  };
+
   const handleCartToggle = () => {
     if (!product) return;
     if (isInCart) {
       dispatch(removeFromCart(product.id));
+      showToast("Removed from cart", "🛒");
     } else {
       dispatch(addToCart(product));
+      showToast("Added to cart", "🛒");
     }
   };
 
@@ -56,8 +92,10 @@ export default function SingleProductPage() {
     if (!product) return;
     if (isFavorite) {
       dispatch(removeFromFavorites(product.id));
+      showToast("Removed from favorites", "❤️");
     } else {
       dispatch(addToFavorites(product));
+      showToast("Added to favorites", "❤️");
     }
   };
 
@@ -87,13 +125,25 @@ export default function SingleProductPage() {
           {loading ? <Skeleton className="h-4 w-full" /> : product?.description}
         </p>
         <p className="text-lg font-semibold">
-          {loading ? <Skeleton className="h-6 w-24" /> : `Price: $${product?.price}`}
+          {loading ? (
+            <Skeleton className="h-6 w-24" />
+          ) : (
+            `Price: $${product?.price}`
+          )}
         </p>
         <p className="text-gray-500">
-          {loading ? <Skeleton className="h-4 w-32" /> : `Category: ${product?.category}`}
+          {loading ? (
+            <Skeleton className="h-4 w-32" />
+          ) : (
+            `Category: ${product?.category}`
+          )}
         </p>
         <p className="text-yellow-500">
-          {loading ? <Skeleton className="h-4 w-20" /> : `Rating: ${product?.rating} ⭐`}
+          {loading ? (
+            <Skeleton className="h-4 w-20" />
+          ) : (
+            `Rating: ${product?.rating} ⭐`
+          )}
         </p>
       </div>
 
@@ -106,7 +156,9 @@ export default function SingleProductPage() {
           <Button
             onClick={handleCartToggle}
             className={`flex items-center space-x-2 px-4 py-2 ${
-              isInCart ? "bg-red-500 hover:bg-red-600 text-white" : "bg-green-500 hover:bg-green-600 text-white"
+              isInCart
+                ? "bg-red-500 hover:bg-red-600 text-white"
+                : "bg-green-500 hover:bg-green-600 text-white"
             } rounded-lg shadow-md transition`}
           >
             <ShoppingCart className="w-5 h-5" />
@@ -116,7 +168,9 @@ export default function SingleProductPage() {
           <Button
             onClick={handleFavoriteToggle}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg shadow-md transition ${
-              isFavorite ? "bg-pink-500 hover:bg-pink-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-800"
+              isFavorite
+                ? "bg-pink-500 hover:bg-pink-600 text-white"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-800"
             }`}
           >
             <Heart
