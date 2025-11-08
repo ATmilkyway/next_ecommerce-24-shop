@@ -26,7 +26,7 @@ export default function NavBar() {
     { name: "All Products", href: "/products", icon: Package },
     { name: "Categories", href: "/products/categories", icon: Grid3X3 },
     { name: "Create", href: "/create", icon: PlusCircle },
-    { name: "Edit", href: "/edit/1", icon: Edit3 },
+    // { name: "Edit", href: "/edit/1", icon: Edit3 },
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
