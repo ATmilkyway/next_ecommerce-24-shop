@@ -5,9 +5,17 @@ import ProductCard from "./ProductCard";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Product } from "@/types";
 import useProducts from "@/hooks/useProducts";
+ 
+interface ProductListProps {
+  searchQuery: string;
+}
 
-export default function ProductList() {
-  const { products, fetchProducts, loading, hasMore } = useProducts(10);
+export default function ProductList({ searchQuery }: ProductListProps) {
+  const { products, fetchProducts, loading, hasMore } = useProducts(
+    10,
+    searchQuery
+  );
+
   const [cart, setCart] = useState<Product[]>([]);
   const [notification, setNotification] = useState<string>("");
 
