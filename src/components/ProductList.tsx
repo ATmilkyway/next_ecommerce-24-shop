@@ -14,22 +14,13 @@ interface ProductListProps {
 export default function ProductList({ searchQuery = "", category }: ProductListProps) {
   const { products, fetchProducts, loading, hasMore } = useProducts(10, searchQuery, category);
 
-  const [cart, setCart] = useState<Product[]>([]);
   const [notification, setNotification] = useState<string>("");
 
-  const handleToggleCart = (product: Product) => {
-    const isInCart = cart.some((item) => item.id === product.id);
-    if (isInCart) {
-      setCart(cart.filter((item) => item.id !== product.id));
-      setNotification(`${product.title} removed from cart!`);
-    } else {
-      setCart([...cart, product]);
-      setNotification(`${product.title} added to cart!`);
-    }
+  // Helper to show temporary notifications
+  const showNotification = (message: string) => {
+    setNotification(message);
     setTimeout(() => setNotification(""), 2000);
   };
-
-  const isInCart = (product: Product) => cart.some((item) => item.id === product.id);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +38,7 @@ export default function ProductList({ searchQuery = "", category }: ProductListP
   }, [loading, hasMore, fetchProducts]);
 
   return (
-    <div className="p-6 relative pl-28">
+    <div className="p-6 relative pl-4 sm:pl-6 lg:pl-28">
       {notification && (
         <div className="fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-lg z-50 transition-all duration-300">
           {notification}
@@ -60,12 +51,7 @@ export default function ProductList({ searchQuery = "", category }: ProductListP
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            isInCart={isInCart(product)}
-            onToggleCart={handleToggleCart}
-          />
+          <ProductCard key={product.id} product={product} />
         ))}
 
         {loading &&
