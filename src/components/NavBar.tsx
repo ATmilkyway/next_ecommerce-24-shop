@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export default function CollapsibleFloatingNav() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     { name: "All Products", href: "/", icon: Home },
