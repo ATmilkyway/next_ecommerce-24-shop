@@ -6,13 +6,11 @@ import { Button } from "@/components/ui/button";
 import {
   Home,
   PlusCircle,
-  Edit3,
   Package,
   Grid3X3,
   Menu,
   X,
   User,
-  Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CartCounter from "@/components/CartCounter";
@@ -26,7 +24,6 @@ export default function NavBar() {
     { name: "All Products", href: "/products", icon: Package },
     { name: "Categories", href: "/products/categories", icon: Grid3X3 },
     { name: "Create", href: "/create", icon: PlusCircle },
-    // { name: "Edit", href: "/edit/1", icon: Edit3 },
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -101,60 +98,16 @@ export default function NavBar() {
 
         {/* Bottom Actions */}
         <div className="flex flex-col items-center mt-6 space-y-3 border-t border-border pt-3">
-          {/* Cart Counter */}
           <div className="relative group">
             <CartCounter size="sm" />
-            {!isOpen && (
-              <div
-                className={cn(
-                  "absolute left-full top-1/2 -translate-y-1/2 ml-3",
-                  "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                  "pointer-events-none"
-                )}
-              >
-                <div className="bg-background/90 border border-border backdrop-blur-md shadow-lg rounded-md px-3 py-1 text-xs font-medium text-foreground whitespace-nowrap">
-                  Cart
-                </div>
-              </div>
-            )}
           </div>
-
-          {/* Favorite Counter */}
           <div className="relative group">
             <FavoriteCounter size="sm" />
-            {!isOpen && (
-              <div
-                className={cn(
-                  "absolute left-full top-1/2 -translate-y-1/2 ml-3",
-                  "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                  "pointer-events-none"
-                )}
-              >
-                <div className="bg-background/90 border border-border backdrop-blur-md shadow-lg rounded-md px-3 py-1 text-xs font-medium text-foreground whitespace-nowrap">
-                  Favorites
-                </div>
-              </div>
-            )}
           </div>
-
-          {/* User */}
           <div className="relative group">
             <Button variant="ghost" size="icon" className="rounded-full">
               <User className="h-5 w-5" />
             </Button>
-            {!isOpen && (
-              <div
-                className={cn(
-                  "absolute left-full top-1/2 -translate-y-1/2 ml-3",
-                  "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                  "pointer-events-none"
-                )}
-              >
-                <div className="bg-background/90 border border-border backdrop-blur-md shadow-lg rounded-md px-3 py-1 text-xs font-medium text-foreground whitespace-nowrap">
-                  User
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </aside>
