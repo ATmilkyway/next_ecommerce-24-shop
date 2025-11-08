@@ -4,15 +4,16 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  ShoppingCart,
-  User,
   Home,
   Star,
   PlusCircle,
   Edit3,
-  Info,
+  Package,
+  Grid3X3,
   Menu,
   X,
+  ShoppingCart,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,11 +21,15 @@ export default function CollapsibleFloatingNav() {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { name: "All Products", href: "/", icon: Home },
+    { name: "Home", href: "/", icon: Home },
+    { name: "All Products", href: "/products", icon: Package },
+    { name: "Categories", href: "/categories", icon: Grid3X3 },
     { name: "Favorites", href: "/favorites", icon: Star },
     { name: "Create", href: "/create", icon: PlusCircle },
     { name: "Edit", href: "/edit/1", icon: Edit3 },
   ];
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
     <>

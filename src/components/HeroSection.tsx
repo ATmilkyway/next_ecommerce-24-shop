@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -15,8 +16,16 @@ export default function HeroSection() {
 
         {/* Buttons */}
         <div className="mt-8 flex gap-4">
-          <Button variant="default">Products</Button>
-          <Button variant="outline">Favorites</Button>
+          <Link href="/products">
+            <Button variant="default" className="cursor-pointer">
+              Products
+            </Button>
+          </Link>
+          <Link href="/favorites">
+            <Button variant="outline" className="cursor-pointer">
+              Favorites
+            </Button>
+          </Link>
         </div>
       </div>
       {/* Right side */}
