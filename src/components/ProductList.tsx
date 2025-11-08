@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Product } from "@/types";
 import useProducts from "@/hooks/useProducts";
 
@@ -24,7 +25,8 @@ export default function ProductList() {
     setTimeout(() => setNotification(""), 2000);
   };
 
-  const isInCart = (product: Product) => cart.some((item) => item.id === product.id);
+  const isInCart = (product: Product) =>
+    cart.some((item) => item.id === product.id);
 
   // Infinite Scroll
   useEffect(() => {
@@ -44,7 +46,6 @@ export default function ProductList() {
 
   return (
     <div className="p-6 relative pl-28">
-      {/* Notification */}
       {notification && (
         <div className="fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-lg z-50 transition-all duration-300">
           {notification}
@@ -62,10 +63,16 @@ export default function ProductList() {
             onToggleCart={handleToggleCart}
           />
         ))}
+
+        {loading &&
+          Array.from({ length: 8 }).map((_, idx) => (
+            <ProductCardSkeleton key={idx} />
+          ))}
       </div>
 
-      {loading && <p className="text-center mt-6 text-gray-500">Loading...</p>}
-      {!hasMore && <p className="text-center mt-6 text-gray-500">No more products</p>}
+      {!hasMore && !loading && (
+        <p className="text-center mt-6 text-gray-500">No more products</p>
+      )}
     </div>
   );
 }
