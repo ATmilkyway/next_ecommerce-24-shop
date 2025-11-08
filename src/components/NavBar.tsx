@@ -12,12 +12,12 @@ import {
   Grid3X3,
   Menu,
   X,
-  ShoppingCart,
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CartCounter from "@/components/CartCounter";
 
-export default function CollapsibleFloatingNav() {
+export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
@@ -103,16 +103,7 @@ export default function CollapsibleFloatingNav() {
         {/* Bottom Actions */}
         <div className="flex flex-col items-center mt-6 space-y-3 border-t border-border pt-3">
           <div className="relative group">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full relative"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
-                2
-              </span>
-            </Button>
+            <CartCounter size="sm" />
             {!isOpen && (
               <div
                 className={cn(
@@ -170,12 +161,7 @@ export default function CollapsibleFloatingNav() {
           );
         })}
 
-        <Button variant="ghost" size="icon" className="rounded-full relative">
-          <ShoppingCart className="h-5 w-5" />
-          <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
-            2
-          </span>
-        </Button>
+        <CartCounter size="md" />
       </nav>
     </>
   );
