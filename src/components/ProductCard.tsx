@@ -17,6 +17,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "@/redux/features/favoritesSlice";
+import toast from "react-hot-toast";
 
 interface Props {
   product: Product;
@@ -42,8 +43,10 @@ export default function ProductCard({ product }: Props) {
     e.stopPropagation();
     if (isInCart) {
       dispatch(removeFromCart(product.id));
+      showToast("Removed from cart", "🛒");
     } else {
       dispatch(addToCart(product));
+      showToast("Added to cart", "🛒");
     }
   };
 
@@ -51,9 +54,35 @@ export default function ProductCard({ product }: Props) {
     e.stopPropagation();
     if (isFavorite) {
       dispatch(removeFromFavorites(product.id));
+      showToast("Removed from favorites", "❤️");
     } else {
       dispatch(addToFavorites(product));
+      showToast("Added to favorites", "❤️");
     }
+  };
+
+  const showToast = (message: string, icon: string) => {
+    toast.custom(
+      (t) => (
+        <div
+          className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
+          style={{
+            opacity: t.visible ? 1 : 0,
+            transform: t.visible ? "translateX(0)" : "translateX(20px)",
+            transition: "all 0.3s ease",
+          }}
+        >
+          <img
+            src={product.thumbnail || product.images[0]}
+            alt={product.title}
+            className="w-10 h-10 object-cover rounded"
+          />
+          <span className="font-medium">{message}</span>
+          <span className="text-xl">{icon}</span>
+        </div>
+      ),
+      { duration: 2000, position: "top-right" }
+    );
   };
 
   return (
@@ -77,24 +106,22 @@ export default function ProductCard({ product }: Props) {
         {/* Favorite button */}
         <button
           onClick={handleFavoriteClick}
-          className="absolute top-3 left-3 rounded-full p-2 shadow-md transition
-            bg-white hover:bg-gray-100"
+          className="absolute top-3 left-3 rounded-full p-2 shadow-md transition bg-white hover:bg-gray-100"
         >
           <Heart
             className="w-5 h-5"
-            style={{ color: isFavorite ? "#e11d48" : "#4b5563" }} // red if favorite, gray if not
+            style={{ color: isFavorite ? "#e11d48" : "#4b5563" }}
           />
         </button>
 
         {/* Cart button */}
         <button
           onClick={handleCartClick}
-          className={`absolute top-3 right-3 rounded-full p-2 shadow-md transition
-            ${
-              isInCart
-                ? "bg-green-500 text-white"
-                : "bg-white text-gray-800 hover:bg-gray-100"
-            }`}
+          className={`absolute top-3 right-3 rounded-full p-2 shadow-md transition ${
+            isInCart
+              ? "bg-green-500 text-white"
+              : "bg-white text-gray-800 hover:bg-gray-100"
+          }`}
         >
           <ShoppingCart className="w-5 h-5" />
         </button>
