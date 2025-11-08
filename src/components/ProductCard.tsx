@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -13,6 +13,10 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { addToCart, removeFromCart } from "@/redux/features/cartSlice";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "@/redux/features/favoritesSlice";
 
 interface Props {
   product: Product;
@@ -21,16 +25,21 @@ interface Props {
 export default function ProductCard({ product }: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
 
+  // Cart state
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const isInCart = cartItems.some((item) => item.id === product.id);
+
+  // Favorites state
+  const favorites = useSelector((state: RootState) => state.favorites.items);
+  const isFavorite = favorites.some((item) => item.id === product.id);
 
   const handleCardClick = () => {
     router.push(`/products/${product.id}`);
   };
 
   const handleCartClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // prevent card navigation
+    e.stopPropagation();
     if (isInCart) {
       dispatch(removeFromCart(product.id));
     } else {
@@ -38,9 +47,18 @@ export default function ProductCard({ product }: Props) {
     }
   };
 
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      dispatch(removeFromFavorites(product.id));
+    } else {
+      dispatch(addToFavorites(product));
+    }
+  };
+
   return (
     <Card
-      className="group hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 rounded-xl overflow-hidden"
+      className="group hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 rounded-xl overflow-hidden relative"
       onClick={handleCardClick}
     >
       <CardHeader className="p-4">
@@ -55,6 +73,20 @@ export default function ProductCard({ product }: Props) {
           alt={product.title}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
+
+        {/* Favorite button */}
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 left-3 rounded-full p-2 shadow-md transition
+            bg-white hover:bg-gray-100"
+        >
+          <Heart
+            className="w-5 h-5"
+            style={{ color: isFavorite ? "#e11d48" : "#4b5563" }} // red if favorite, gray if not
+          />
+        </button>
+
+        {/* Cart button */}
         <button
           onClick={handleCartClick}
           className={`absolute top-3 right-3 rounded-full p-2 shadow-md transition
@@ -68,7 +100,7 @@ export default function ProductCard({ product }: Props) {
         </button>
       </CardContent>
 
-      <div className="p-4">
+      <div className="p-4 space-y-1">
         <p className="text-sm text-gray-500">Category: {product.category}</p>
         <p className="text-sm text-gray-500">Rating: {product.rating} ⭐</p>
         <p className="text-lg font-bold mt-2">${product.price}</p>
