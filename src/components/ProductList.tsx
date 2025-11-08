@@ -5,16 +5,14 @@ import ProductCard from "./ProductCard";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Product } from "@/types";
 import useProducts from "@/hooks/useProducts";
- 
+
 interface ProductListProps {
-  searchQuery: string;
+  searchQuery?: string;
+  category?: string;
 }
 
-export default function ProductList({ searchQuery }: ProductListProps) {
-  const { products, fetchProducts, loading, hasMore } = useProducts(
-    10,
-    searchQuery
-  );
+export default function ProductList({ searchQuery = "", category }: ProductListProps) {
+  const { products, fetchProducts, loading, hasMore } = useProducts(10, searchQuery, category);
 
   const [cart, setCart] = useState<Product[]>([]);
   const [notification, setNotification] = useState<string>("");
@@ -22,21 +20,17 @@ export default function ProductList({ searchQuery }: ProductListProps) {
   const handleToggleCart = (product: Product) => {
     const isInCart = cart.some((item) => item.id === product.id);
     if (isInCart) {
-      const updatedCart = cart.filter((item) => item.id !== product.id);
-      setCart(updatedCart);
+      setCart(cart.filter((item) => item.id !== product.id));
       setNotification(`${product.title} removed from cart!`);
     } else {
-      const updatedCart = [...cart, product];
-      setCart(updatedCart);
+      setCart([...cart, product]);
       setNotification(`${product.title} added to cart!`);
     }
     setTimeout(() => setNotification(""), 2000);
   };
 
-  const isInCart = (product: Product) =>
-    cart.some((item) => item.id === product.id);
+  const isInCart = (product: Product) => cart.some((item) => item.id === product.id);
 
-  // Infinite Scroll
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -60,7 +54,9 @@ export default function ProductList({ searchQuery }: ProductListProps) {
         </div>
       )}
 
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">Product List</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-900">
+        Product List {category ? `- ${category}` : ""}
+      </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
