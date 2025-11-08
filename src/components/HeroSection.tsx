@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
-    <div className="flex bg-gray-50 h-[60vh] px-16 py-8 gap-8">
+    <div className="flex bg-gray-50 h-[90vh] px-16 py-8 gap-8">
       <div className="w-22"></div> {/* left spacing */}
       {/* Left box */}
       <div className="flex-1 flex flex-col justify-center">

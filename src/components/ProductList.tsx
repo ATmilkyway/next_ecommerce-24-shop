@@ -1,6 +1,13 @@
-import React, { useEffect } from "react";
+"use client";
+import useProducts from "@/hooks/useProducts";
 
 export default function ProductList() {
-  useEffect(() => {}, []);
-  return <div>ProductList</div>;
+  const { products } = useProducts();
+  return (
+    <div>
+      {products.map((product) => (
+        <li key={product.id}>{product.title}</li>
+      ))}
+    </div>
+  );
 }
