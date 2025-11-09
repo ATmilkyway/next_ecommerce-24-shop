@@ -1,5 +1,9 @@
 # 24 Ecommerce Shop
 
 ```bash
-npm run 24
+# directions
+
+npm install
+
+npm run dev
 ```
