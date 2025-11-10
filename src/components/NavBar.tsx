@@ -46,8 +46,8 @@ export function NavBar() {
           className={`flex items-center gap-3 p-2 rounded-lg select-none transition-colors
             ${
               pathname === item.href
-                ? "bg-gray-200 font-semibold"
-                : "hover:bg-gray-200"
+                ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white font-semibold"
+                : "hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
             }
           `}
         >
@@ -61,7 +61,7 @@ export function NavBar() {
           </span>
         </Link>
         {collapsed && (
-          <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+          <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white dark:bg-gray-200 dark:text-gray-900 text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
             {item.name}
           </span>
         )}
@@ -79,8 +79,8 @@ export function NavBar() {
           className={`flex-1 flex flex-col items-center justify-center gap-1 p-2 rounded-lg select-none transition-colors
             ${
               active
-                ? "text-gray-900 font-semibold"
-                : "text-gray-500 hover:text-gray-900"
+                ? "text-gray-900 font-semibold dark:text-white"
+                : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             }
           `}
         >
@@ -114,11 +114,7 @@ export function NavBar() {
             size="icon"
             onClick={() => setCollapsed(!collapsed)}
           >
-            {collapsed ? (
-              <Menu className="w-5 h-5" />
-            ) : (
-              <X className="w-5 h-5" />
-            )}
+            {collapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
           </Button>
         </div>
 
