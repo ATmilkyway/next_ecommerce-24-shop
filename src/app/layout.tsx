@@ -46,7 +46,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <TopBar />
             <NavBar />
-            <main className="lg:w-[95vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
+            <main className="lg:w-[93vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
               {children}
             </main>
           </div>
