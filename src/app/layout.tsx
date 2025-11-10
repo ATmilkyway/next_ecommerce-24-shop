@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
- import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 import { TopBar } from "@/components/TopBar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +38,10 @@ export default function RootLayout({
           <div>
             <TopBar />
             <NavBar />
-            <main> {children}</main>
+            <main className="lg:w-[95vw] lg:ml-auto lg:pt-8 lg:px-4">
+              {" "}
+              {children}
+            </main>
           </div>
         </ThemeProvider>
       </body>
