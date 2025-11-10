@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { ColorModeSwitch } from "./ColorModeSwitch";
 import { ShoppingCart } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { ColorModeSwitch } from "./ColorModeSwitch";
 
 const deals = [
   { title: "Flash Sale: Up to 50% off!", image: "/deal1.jpg" },
@@ -26,7 +26,6 @@ export function TopBar() {
 
   return (
     <div className="w-full flex items-center justify-between px-2 py-1 md:px-4 md:py-2 bg-background/90 backdrop-blur-md border-b border-border shadow-md">
-      
       <div className="flex-1 overflow-hidden">
         <Carousel
           plugins={[autoplay.current]}
