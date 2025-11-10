@@ -5,7 +5,8 @@ import "./globals.css";
 import { NavBar } from "@/components/NavBar/NavBar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { TopBar } from "@/components/NavBar/TopBar";
- 
+import { Footer } from "@/components/Footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,7 +20,7 @@ const geistMono = Geist_Mono({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["100","200","300","400","500","600","700","800","900"], // optional
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], // optional
 });
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function RootLayout({
             <main className="lg:w-[93vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
               {children}
             </main>
+            <Footer />
           </div>
         </ThemeProvider>
       </body>
