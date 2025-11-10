@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { GiFruitBowl } from "react-icons/gi";
 import { MdHome, MdSportsBaseball, MdWatch } from "react-icons/md";
+import Link from "next/link";
 
 interface Props {
   category: Category;
@@ -48,10 +49,14 @@ const categoryIconMap: { [key: string]: IconType } = {
 };
 
 export function CategoryItem({ category }: Props) {
-  const IconComponent = categoryIconMap[category.slug] || categoryIconMap.default;
+  const IconComponent =
+    categoryIconMap[category.slug] || categoryIconMap.default;
 
   return (
-    <div className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform">
+    <Link
+      href={`/products/category/${category.slug}`}
+      className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+    >
       <Avatar className="mb-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-100 dark:bg-gray-800">
         <AvatarFallback className="bg-transparent">
           <IconComponent className="w-10 h-10 sm:w-12 sm:h-14 md:w-14 md:h-16 text-gray-700 dark:text-gray-200" />
@@ -60,6 +65,6 @@ export function CategoryItem({ category }: Props) {
       <span className="text-center text-[10px] sm:text-xs md:text-sm font-medium truncate">
         {category.name}
       </span>
-    </div>
+    </Link>
   );
 }
