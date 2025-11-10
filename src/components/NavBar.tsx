@@ -40,31 +40,40 @@ export function NavBar() {
 
   const renderDesktopItems = (items: MenuItem[]) =>
     items.map((item) => (
-      <Link
-        key={item.name}
-        href={item.href}
-        className={`flex items-center gap-3 p-2 rounded-lg select-none transition-colors
-          ${
-            pathname === item.href
-              ? "bg-gray-200 font-semibold"
-              : "hover:bg-gray-200"
-          }
-        `}
-      >
-        <item.icon className="w-6 h-6 shrink-0" />
-        <span
-          className={`transition-all duration-300 overflow-hidden whitespace-nowrap
-            ${collapsed ? "w-0 opacity-0" : "w-full opacity-100"}
+      <div key={item.name} className="relative group">
+        <Link
+          href={item.href}
+          className={`flex items-center gap-3 p-2 rounded-lg select-none transition-colors
+            ${
+              pathname === item.href
+                ? "bg-gray-200 font-semibold"
+                : "hover:bg-gray-200"
+            }
           `}
         >
-          {item.name}
-        </span>
-      </Link>
+          <item.icon className="w-6 h-6 shrink-0" />
+          <span
+            className={`transition-all duration-300 overflow-hidden whitespace-nowrap
+              ${collapsed ? "w-0 opacity-0" : "w-full opacity-100"}
+            `}
+          >
+            {item.name}
+          </span>
+        </Link>
+        {collapsed && (
+          <span
+            className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50"
+          >
+            {item.name}
+          </span>
+        )}
+      </div>
     ));
 
   const renderMobileItems = (items: MenuItem[]) =>
     items.map((item) => {
       const active = pathname === item.href;
+      const mobileName = item.name === "All Products" ? "Products" : item.name;
       return (
         <Link
           key={item.name}
@@ -78,21 +87,19 @@ export function NavBar() {
           `}
         >
           <item.icon className="w-6 h-6" />
-          {active && <span className="text-xs">{item.name}</span>}
+          {active && <span className="text-xs">{mobileName}</span>}
         </Link>
       );
     });
 
   return (
     <>
-      {/* Desktop Sidebar */}
       <nav
         className={`hidden md:flex flex-col justify-between fixed left-5 top-1/2 -translate-y-1/2 z-50
                    bg-background/90 backdrop-blur-md border border-border shadow-lg rounded-3xl
                    p-4 transition-all duration-300 select-none
-                   ${collapsed ? "w-20" : "w-64"}`}
+                   ${collapsed ? "w-20" : "w-48"}`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <h1
             className={`font-bold transition-all duration-300 whitespace-nowrap ${
@@ -119,18 +126,13 @@ export function NavBar() {
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">
-          {renderDesktopItems(mainMenu)}
-        </div>
+        <div className="flex flex-col gap-2">{renderDesktopItems(mainMenu)}</div>
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">
-          {renderDesktopItems(userMenu)}
-        </div>
+        <div className="flex flex-col gap-2">{renderDesktopItems(userMenu)}</div>
       </nav>
 
-      {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none">
         {renderMobileItems(allMenu)}
       </nav>
