@@ -22,7 +22,7 @@ interface MenuItem {
 }
 
 export function NavBar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const pathname = usePathname();
 
   const mainMenu: MenuItem[] = [
@@ -61,9 +61,7 @@ export function NavBar() {
           </span>
         </Link>
         {collapsed && (
-          <span
-            className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50"
-          >
+          <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
             {item.name}
           </span>
         )}
@@ -126,11 +124,15 @@ export function NavBar() {
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">{renderDesktopItems(mainMenu)}</div>
+        <div className="flex flex-col gap-2">
+          {renderDesktopItems(mainMenu)}
+        </div>
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">{renderDesktopItems(userMenu)}</div>
+        <div className="flex flex-col gap-2">
+          {renderDesktopItems(userMenu)}
+        </div>
       </nav>
 
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none">
