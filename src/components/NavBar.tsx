@@ -131,7 +131,7 @@ export function NavBar() {
         </div>
       </nav>
 
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none z-50">
         {renderMobileItems(allMenu)}
       </nav>
     </>

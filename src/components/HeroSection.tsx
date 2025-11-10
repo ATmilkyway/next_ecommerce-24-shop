@@ -12,7 +12,7 @@ const rightImages = [
 
 export function HeroSection() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="w-full max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 py-4 sm:py-6 lg:py-8">
       <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 h-auto min-h-[500px] sm:min-h-[550px] lg:h-[500px] xl:h-[550px]">
         {/* Main Banner */}
         <div className="relative w-full lg:w-2/3 h-[300px] xs:h-[350px] sm:h-[400px] md:h-[450px] lg:h-full rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl hover:shadow-xl transition-all duration-300 group">
@@ -37,7 +37,8 @@ export function HeroSection() {
                 Discover Amazing Deals
               </h1>
               <p className="text-white/90 text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl mb-4 xs:mb-5 sm:mb-6 lg:mb-8 max-w-xs xs:max-w-sm sm:max-w-md leading-relaxed drop-shadow-md">
-                Shop the best products and save big on your favorite items today.
+                Shop the best products and save big on your favorite items
+                today.
               </p>
 
               {/* Buttons - Always side by side on medium screens and up */}
