@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
+
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TopBar } from "@/components/TopBar";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -12,6 +14,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["100","200","300","400","500","600","700","800","900"], // optional
 });
 
 export const metadata: Metadata = {
@@ -27,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -35,11 +43,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div>
+          <div className="flex flex-col min-h-screen">
             <TopBar />
             <NavBar />
-            <main className="lg:w-[95vw] lg:ml-auto lg:pt-8 lg:px-4">
-              {" "}
+            <main className="lg:w-[95vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
               {children}
             </main>
           </div>
