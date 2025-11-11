@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ReduxProvider } from "@/redux/Providers";
+import { Toaster } from "react-hot-toast";
 
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 
@@ -47,6 +48,19 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              toastOptions={{
+                duration: 2000,
+                style: {
+                  borderRadius: "8px",
+                  padding: "10px 16px",
+                  fontSize: "14px",
+                  zIndex: 9999,
+                },
+              }}
+            />
             <div className="flex flex-col min-h-screen">
               <TopBar />
               <NavBar />
