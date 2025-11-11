@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CartCounter from "../CartCounter";
+import FavoriteCounter from "../FavoriteCounter";
 
 interface MenuItem {
   name: string;
@@ -39,11 +40,12 @@ export function NavBar() {
 
   const allMenu = [...mainMenu, ...userMenu];
 
+  // ---------- Desktop Menu Renderer ----------
   const renderDesktopItems = (items: MenuItem[]) =>
     items.map((item) => {
       const isActive = pathname === item.href;
 
-      // Special handling for Cart: use CartCounter
+      // Special case for Cart counter
       if (item.name === "Cart") {
         return (
           <Link
@@ -62,7 +64,26 @@ export function NavBar() {
         );
       }
 
-      // Normal menu items
+      // Special case for Favorite counter
+      if (item.name === "Favorite") {
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`relative flex items-center gap-3 p-2 rounded-lg select-none transition-colors
+              ${
+                isActive
+                  ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white font-semibold"
+                  : "hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+              }`}
+          >
+            <FavoriteCounter />
+            {!collapsed && <span>{item.name}</span>}
+          </Link>
+        );
+      }
+
+      // Regular menu items
       return (
         <div key={item.name} className="relative group">
           <Link
@@ -84,6 +105,7 @@ export function NavBar() {
             </span>
           </Link>
 
+          {/* Tooltip when collapsed */}
           {collapsed && (
             <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white dark:bg-gray-200 dark:text-gray-900 text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
               {item.name}
@@ -93,12 +115,13 @@ export function NavBar() {
       );
     });
 
+  // ---------- Mobile Menu Renderer ----------
   const renderMobileItems = (items: MenuItem[]) =>
     items.map((item) => {
       const active = pathname === item.href;
       const mobileName = item.name === "All Products" ? "Products" : item.name;
 
-      // Special handling for Cart
+      // Cart Counter for mobile
       if (item.name === "Cart") {
         return (
           <Link
@@ -111,6 +134,20 @@ export function NavBar() {
         );
       }
 
+      // Favorite Counter for mobile
+      if (item.name === "Favorite") {
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className="flex-1 flex justify-center items-center p-2"
+          >
+            <FavoriteCounter />
+          </Link>
+        );
+      }
+
+      // Regular mobile icons
       return (
         <Link
           key={item.name}
@@ -131,7 +168,7 @@ export function NavBar() {
 
   return (
     <>
-      {/* Desktop Sidebar */}
+      {/* ---------- Desktop Sidebar ---------- */}
       <nav
         className={`hidden md:flex flex-col justify-between fixed left-5 top-1/2 -translate-y-1/2 z-50
                    bg-background/90 backdrop-blur-md border border-border shadow-lg rounded-3xl
@@ -164,18 +201,14 @@ export function NavBar() {
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">
-          {renderDesktopItems(mainMenu)}
-        </div>
+        <div className="flex flex-col gap-2">{renderDesktopItems(mainMenu)}</div>
 
         <Separator className="my-4" />
 
-        <div className="flex flex-col gap-2">
-          {renderDesktopItems(userMenu)}
-        </div>
+        <div className="flex flex-col gap-2">{renderDesktopItems(userMenu)}</div>
       </nav>
 
-      {/* Mobile Bottom Nav */}
+      {/* ---------- Mobile Bottom Nav ---------- */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none z-50">
         {renderMobileItems(allMenu)}
       </nav>
