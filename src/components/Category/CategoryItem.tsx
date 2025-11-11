@@ -1,6 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Menu } from "lucide-react";
 import type { Category } from "@/types/category";
 import type { IconType } from "react-icons";
@@ -55,9 +56,18 @@ export function CategoryItem({ category }: Props) {
   return (
     <Link
       href={`/products/category/${category.slug}`}
-      className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+      className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform relative group"
     >
-      <Avatar className="mb-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-100 dark:bg-gray-800">
+      {category.productCount !== undefined && (
+        <Badge
+          variant="secondary"
+          className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs font-bold min-w-[2rem] h-6 flex justify-center items-center z-10 rounded-full shadow-md"
+        >
+          {category.productCount > 99 ? "99+" : category.productCount}
+        </Badge>
+      )}
+
+      <Avatar className="mb-2 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-100 dark:bg-gray-800 group-hover:shadow-md transition-shadow">
         <AvatarFallback className="bg-transparent">
           <IconComponent className="w-10 h-10 sm:w-12 sm:h-14 md:w-14 md:h-16 text-gray-700 dark:text-gray-200" />
         </AvatarFallback>
