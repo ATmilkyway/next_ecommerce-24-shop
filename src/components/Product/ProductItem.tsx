@@ -4,11 +4,11 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, Check, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { addToCart } from "@/redux/feature/cart/cartSlice";
+import { addToCart, removeFromCart } from "@/redux/feature/cart/cartSlice";
 
 interface Props {
   product: Product;
@@ -17,6 +17,9 @@ interface Props {
 export function ProductItem({ product }: Props) {
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const cart = useSelector((state: RootState) => state.cart.items);
+
+  const isInCart = cart.some((item) => item.id === product.id);
 
   useEffect(() => {
     const favs: number[] = JSON.parse(
@@ -25,8 +28,12 @@ export function ProductItem({ product }: Props) {
     setIsFavorite(favs.includes(product.id));
   }, [product.id]);
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(product));
+  const handleToggleCart = () => {
+    if (isInCart) {
+      dispatch(removeFromCart(product.id));
+    } else {
+      dispatch(addToCart(product));
+    }
   };
 
   const handleToggleFavorite = () => {
@@ -95,14 +102,25 @@ export function ProductItem({ product }: Props) {
         </div>
       </CardContent>
 
+      {/* Footer Button */}
       <CardFooter className="p-2 sm:p-3 mt-auto">
         <Button
           size="sm"
-          className="w-full flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm lg:text-base"
-          onClick={handleAddToCart}
+          className={`w-full flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm lg:text-base
+            ${isInCart ? "bg-red-500 text-white hover:bg-red-600" : ""}`}
+          onClick={handleToggleCart}
         >
-          <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6" />{" "}
-          Add to Cart
+          {isInCart ? (
+            <>
+              <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+              Remove
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+              Add to Cart
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>
