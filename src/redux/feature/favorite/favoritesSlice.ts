@@ -5,24 +5,43 @@ interface FavoritesState {
   items: Product[];
 }
 
-const initialState: FavoritesState = {
-  items: [],
+const loadFavorites = (): Product[] => {
+  if (typeof window === "undefined") return [];
+  try {
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
 };
 
-export const favoritesSlice = createSlice({
+const saveFavorites = (items: Product[]) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("favorites", JSON.stringify(items));
+  }
+};
+
+const initialState: FavoritesState = {
+  items: loadFavorites(),
+};
+
+const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
     addToFavorites: (state, action: PayloadAction<Product>) => {
       if (!state.items.find((item) => item.id === action.payload.id)) {
         state.items.push(action.payload);
+        saveFavorites(state.items);
       }
     },
     removeFromFavorites: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
+      saveFavorites(state.items);
     },
     clearFavorites: (state) => {
       state.items = [];
+      saveFavorites([]);
     },
   },
 });
