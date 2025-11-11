@@ -1,13 +1,13 @@
 "use client";
 
-import useCategory from "@/hooks/useCategory";
 import { Separator } from "@radix-ui/react-separator";
 import { CategoryItem } from "./CategoryItem";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useCategories from "@/hooks/useCategories";
 
 export function CategoryGrid() {
-  const { data } = useCategory();
+  const { data } = useCategories();
 
   // Show only first 9 categories
   const visibleCategories = data.slice(0, 9);

@@ -4,7 +4,7 @@ import { CanceledError } from "axios";
 import apiClient from "@/lib/services/apiClient";
 import { Category } from "@/types/category";
 
-const useCategory = () => {
+const useCategories = () => {
   const [data, setData] = useState<Category[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -30,4 +30,4 @@ const useCategory = () => {
   return { data, error, isLoading };
 };
 
-export default useCategory;
+export default useCategories;
