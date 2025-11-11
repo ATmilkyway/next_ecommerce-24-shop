@@ -69,7 +69,7 @@ export function Footer() {
         {/* Contact Info */}
         <div>
           <h4 className="text-lg font-semibold mb-3 text-white">Contact</h4>
-          <p className="text-sm text-gray-400">Addis Ababa, City, Country</p>
+          <p className="text-sm text-gray-400">Addis Ababa, Ethiopia</p>
           <p className="text-sm text-gray-400 mt-1">Email: info@24shop.com</p>
           <p className="text-sm text-gray-400 mt-1">Phone: +9123456789</p>
         </div>
