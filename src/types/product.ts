@@ -13,7 +13,8 @@ export interface Product {
   thumbnail: string;
 }
 
-export interface FetchProduct extends Product {
+export interface ProductResponse {
+  products: Product[];
   total: number;
   skip: number;
   limit: number;
