@@ -7,10 +7,40 @@ export interface Product {
   discountPercentage: number;
   rating: number;
   stock: number;
-  tags: string[];
+  tags?: string[];
   brand: string;
   images: string[];
   thumbnail: string;
+
+  sku?: string;
+  weight?: number;
+  dimensions?: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation?: string;
+  shippingInformation?: string;
+  availabilityStatus?: string;
+  reviews?: Review[];
+  returnPolicy?: string;
+  minimumOrderQuantity?: number;
+  meta?: Meta;
+}
+
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
+}
+
+export interface Meta {
+  createdAt?: string;
+  updatedAt?: string;
+  barcode?: string;
+  qrCode?: string;
 }
 
 export interface ProductResponse {
@@ -19,4 +49,3 @@ export interface ProductResponse {
   skip: number;
   limit: number;
 }
-  
