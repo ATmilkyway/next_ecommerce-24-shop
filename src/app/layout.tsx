@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ReduxProvider } from "@/redux/Providers";
+
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 
 import "./globals.css";
@@ -34,25 +36,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true} >
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex flex-col min-h-screen">
-            <TopBar />
-            <NavBar />
-            <main className="lg:w-[93vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex flex-col min-h-screen">
+              <TopBar />
+              <NavBar />
+              <main className="lg:w-[93vw] lg:ml-auto lg:pt-8 lg:px-4 font-outfit">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

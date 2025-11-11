@@ -9,6 +9,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { ColorModeSwitch } from "./ColorModeSwitch";
+import CartCounter from "../CartCounter";
 
 const deals = [
   { title: "Flash Sale: Up to 50% off!", image: "/deal1.jpg" },
@@ -57,12 +58,8 @@ export function TopBar() {
 
       <div className="flex items-center gap-2 md:gap-3 ml-2 md:ml-4">
         <ColorModeSwitch />
-        <button className="relative p-1 md:p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-          <ShoppingCart className="w-5 h-5 text-gray-900 dark:text-gray-100" />
-          <span className="absolute -top-1 -right-1 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
-            3
-          </span>
-        </button>
+
+        <CartCounter />
       </div>
     </div>
   );

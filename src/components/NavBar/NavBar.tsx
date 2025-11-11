@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import CartCounter from "../CartCounter";
 
 interface MenuItem {
   name: string;
@@ -39,39 +40,77 @@ export function NavBar() {
   const allMenu = [...mainMenu, ...userMenu];
 
   const renderDesktopItems = (items: MenuItem[]) =>
-    items.map((item) => (
-      <div key={item.name} className="relative group">
-        <Link
-          href={item.href}
-          className={`flex items-center gap-3 p-2 rounded-lg select-none transition-colors
-            ${
-              pathname === item.href
-                ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white font-semibold"
-                : "hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-            }
-          `}
-        >
-          <item.icon className="w-6 h-6 shrink-0" />
-          <span
-            className={`transition-all duration-300 overflow-hidden whitespace-nowrap
-              ${collapsed ? "w-0 opacity-0" : "w-full opacity-100"}
-            `}
+    items.map((item) => {
+      const isActive = pathname === item.href;
+
+      // Special handling for Cart: use CartCounter
+      if (item.name === "Cart") {
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`relative flex items-center gap-3 p-2 rounded-lg select-none transition-colors
+              ${
+                isActive
+                  ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white font-semibold"
+                  : "hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+              }`}
           >
-            {item.name}
-          </span>
-        </Link>
-        {collapsed && (
-          <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white dark:bg-gray-200 dark:text-gray-900 text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
-            {item.name}
-          </span>
-        )}
-      </div>
-    ));
+            <CartCounter />
+            {!collapsed && <span>{item.name}</span>}
+          </Link>
+        );
+      }
+
+      // Normal menu items
+      return (
+        <div key={item.name} className="relative group">
+          <Link
+            href={item.href}
+            className={`flex items-center gap-3 p-2 rounded-lg select-none transition-colors
+              ${
+                isActive
+                  ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white font-semibold"
+                  : "hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+              }`}
+          >
+            <item.icon className="w-6 h-6 shrink-0" />
+            <span
+              className={`transition-all duration-300 overflow-hidden whitespace-nowrap
+                ${collapsed ? "w-0 opacity-0" : "w-full opacity-100"}
+              `}
+            >
+              {item.name}
+            </span>
+          </Link>
+
+          {collapsed && (
+            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-900 text-white dark:bg-gray-200 dark:text-gray-900 text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+              {item.name}
+            </span>
+          )}
+        </div>
+      );
+    });
 
   const renderMobileItems = (items: MenuItem[]) =>
     items.map((item) => {
       const active = pathname === item.href;
       const mobileName = item.name === "All Products" ? "Products" : item.name;
+
+      // Special handling for Cart
+      if (item.name === "Cart") {
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className="flex-1 flex justify-center items-center p-2"
+          >
+            <CartCounter />
+          </Link>
+        );
+      }
+
       return (
         <Link
           key={item.name}
@@ -92,6 +131,7 @@ export function NavBar() {
 
   return (
     <>
+      {/* Desktop Sidebar */}
       <nav
         className={`hidden md:flex flex-col justify-between fixed left-5 top-1/2 -translate-y-1/2 z-50
                    bg-background/90 backdrop-blur-md border border-border shadow-lg rounded-3xl
@@ -114,7 +154,11 @@ export function NavBar() {
             size="icon"
             onClick={() => setCollapsed(!collapsed)}
           >
-            {collapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
+            {collapsed ? (
+              <Menu className="w-5 h-5" />
+            ) : (
+              <X className="w-5 h-5" />
+            )}
           </Button>
         </div>
 
@@ -131,6 +175,7 @@ export function NavBar() {
         </div>
       </nav>
 
+      {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/90 backdrop-blur-md border-t border-border shadow-lg flex justify-around p-2 select-none z-50">
         {renderMobileItems(allMenu)}
       </nav>
