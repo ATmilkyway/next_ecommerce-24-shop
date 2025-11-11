@@ -1,4 +1,4 @@
-import { CategoryGrid } from "@/components/CategoryGrid";
+import { CategoryGrid } from "@/components/Category";
 import { FeatureSection } from "@/components/FeatureSection";
 import { HeroSection } from "@/components/HeroSection";
 
